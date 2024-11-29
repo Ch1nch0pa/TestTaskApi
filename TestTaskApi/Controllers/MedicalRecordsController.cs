@@ -11,7 +11,7 @@ using TestTaskApi.DAL.Entities;
 
 namespace TestTaskApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/medicalRecords")]
     [ApiController]
     [SwaggerTag("Контроллер медицинских записей.")]
     /// <summary>

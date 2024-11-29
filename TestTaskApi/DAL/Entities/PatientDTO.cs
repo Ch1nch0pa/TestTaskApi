@@ -2,7 +2,7 @@
 
 namespace TestTaskApi.DAL.Entities
 {
-    public class PatientDTO
+    public class PatientDto
     {
         public int PatientId { get; set; }
         [Required(ErrorMessage ="Поле FirstName не должно быть пустым")]

@@ -10,7 +10,7 @@ using TestTaskApi.DAL.Entities;
 
 namespace TestTaskApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/patients")]
     [ApiController]
     [SwaggerTag("Контроллер пациентов.")]
     /// <summary>
@@ -35,7 +35,7 @@ namespace TestTaskApi.Controllers
         [HttpGet]
         [SwaggerResponse(200, "Список пациентов успешно получен.")]
         [SwaggerResponse(404, "Пациенты не найдены.")]
-        public async Task<ActionResult<IEnumerable<PatientDTO>>> GetPatients([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<PatientDto>>> GetPatients([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             if (pageNumber < 1) pageNumber = 1;
             if (pageSize < 1) pageSize = 10;
@@ -48,7 +48,7 @@ namespace TestTaskApi.Controllers
             var patients = await _context.Patients
                 .Skip(skip)
                 .Take(pageSize)
-                .Select(p => new PatientDTO
+                .Select(p => new PatientDto
                 {
                     PatientId = p.PatientId,
                     FirstName = p.FirstName,
@@ -115,13 +115,13 @@ namespace TestTaskApi.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(200, "Пациент успешно найден.")]
         [SwaggerResponse(404, "Пациент не найден.")]
-        public async Task<ActionResult<PatientDTO>> GetPatient(int id)
+        public async Task<ActionResult<PatientDto>> GetPatient(int id)
         {
             var patient = await _context.Patients
                 .FindAsync(id);
             if (patient == null)
                 return NotFound($"Указанный пациент не найден");
-            var patientDto = new PatientDTO
+            var patientDto = new PatientDto
             {
                 PatientId = patient.PatientId,
                 FirstName = patient.FirstName,
@@ -142,7 +142,7 @@ namespace TestTaskApi.Controllers
         [HttpPost]
         [SwaggerResponse(201, "Пациент успешно создан.")]
         [SwaggerResponse(400, "Ошибка валидации или данные некорректны.")]
-        public async Task<ActionResult<Patient>> CreatePatient([FromBody] PatientDTO patientDto)
+        public async Task<ActionResult<Patient>> CreatePatient([FromBody] PatientDto patientDto)
         {
             if (ModelState.IsValid)
             {
@@ -190,7 +190,7 @@ namespace TestTaskApi.Controllers
         [HttpPut("{id}")]
         [SwaggerResponse(200, "Пациент успешно изменен.")]
         [SwaggerResponse(404, "Пациент не найден.")]
-        public async Task<IActionResult> UpdatePatient(int id, [FromBody] PatientDTO patientDto)
+        public async Task<IActionResult> UpdatePatient(int id, [FromBody] PatientDto patientDto)
         {
             var patient = new Patient
             {
